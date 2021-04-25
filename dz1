@@ -1,0 +1,67 @@
+"""
+1. Отсортируйте по убыванию методом "пузырька" одномерный целочисленный массив,
+заданный случайными числами на промежутке [-100; 100). Выведите на экран
+исходный и отсортированный массивы.
+
+Сортировка должна быть реализована в
+виде функции.
+
+Обязательно доработайте алгоритм (сделайте его умнее)!
+
+Идея доработки: если за проход по списку не совершается ни одной сортировки,
+то завершение
+Обязательно сделайте замеры времени обеих реализаций
+и обосновать дала ли оптимизация эффективность
+
+Подсказка: обратите внимание, сортируем не по возрастанию, как в примере,
+а по убыванию.
+
+Сделайте выводы!!!
+Опишите в чем была ваша доработка и помогла ли вам доработка??
+"""
+
+
+
+from random import randint
+import timeit
+
+"""Обычная bubble сортировка"""
+
+def bubble_sort_1(array):
+    for i in range(len(array) - 1, 0, -1):
+        for n in range(i):
+            if array[n] > array[n+1]:
+                array[n], array[n+1] = array[n+1], array[n]
+
+    return array
+
+"""Умная сортировка"""
+
+def bubble_sort_2(array):
+    for i in range(len(array) - 1, 0, -1):
+        flag = True
+        for n in range(i):
+            if array[n] > array[n+1]:
+                array[n], array[n+1] = array[n+1], array[n]
+                flag = False
+        if flag == True:
+            break
+    return array
+
+numbers = [randint(-100, 100) for i in range(1000)]
+
+print(bubble_sort_2(numbers))
+print(
+    timeit.timeit(
+        f'bubble_sort_1({numbers})',
+        setup="from __main__ import bubble_sort_1",
+        number=100))
+print(
+    timeit.timeit(
+        f'bubble_sort_2({numbers})',
+        setup="from __main__ import bubble_sort_2",
+        number=100))
+"""
+4.9059367
+0.009402399999999922
+"""
